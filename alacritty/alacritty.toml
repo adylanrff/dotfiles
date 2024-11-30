@@ -20,7 +20,7 @@
 
 [window]
 
-opacity = 0.97
+opacity = 0.9
 
 padding.x = 5
 padding.y = 0
@@ -36,7 +36,7 @@ normal.family = "FiraCode Nerd Font"
 bold.family = "FiraCode Nerd Font"
 italic.family = "FiraCode Nerd Font"
 bold_italic.family = "FiraCode Nerd Font"
-size = 14.0
+size = 13.0
 
 # Tip: for inspiration, look for values in the source code files of your favorite VS Code themes, and use the color picker in
 # Google to test colors before setting a value, or simply using an editor such as VS Code where colors are displayed in a 
@@ -45,4 +45,4 @@ size = 14.0
 
 [colors]
 
-primary.background = "#111111"
+primary.background = "#170017"
