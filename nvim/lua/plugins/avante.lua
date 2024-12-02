@@ -2,32 +2,26 @@ return {
   "yetone/avante.nvim",
   lazy = false,
   version = false, -- set this if you want to always pull the latest change
+  enabled = true,
   opts = {
-    provider = "ollama",
+    provider = "openrouter",
+    auto_suggestions_provider = "openrouter",
     vendors = {
-      ---@type AvanteProvider
-      ollama = {
-        ["local"] = true,
-        endpoint = "127.0.0.1:11434/v1",
-        model = "qwen2.5-coder:3b",
-        parse_curl_args = function(opts, code_opts)
-          return {
-            url = opts.endpoint .. "/chat/completions",
-            headers = {
-              ["Accept"] = "application/json",
-              ["Content-Type"] = "application/json",
-            },
-            body = {
-              model = opts.model,
-              messages = require("avante.providers").copilot.parse_messages(code_opts),
-              max_tokens = 2048,
-              stream = true,
-            },
-          }
-        end,
-        parse_response_data = function(data_stream, event_state, opts)
-          require("avante.providers").openai.parse_response(data_stream, event_state, opts)
-        end,
+      openrouter = {
+        __inherited_from = "openai",
+        api_key_name = "cmd:bw get password openrouter-api-key",
+        endpoint = "https://openrouter.ai/api/v1",
+        model = "qwen/qwen-2.5-coder-32b-instruct",
+      },
+    },
+    behaviour = {
+      auto_suggestions = true, -- Experimental stage
+      auto_apply_diff_after_generation = true,
+    },
+
+    mappings = {
+      suggestion = {
+        accept = "<M-l>",
       },
     },
   },

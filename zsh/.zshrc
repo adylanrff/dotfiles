@@ -13,7 +13,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="refined"
+ZSH_THEME="jonathan"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -136,3 +136,18 @@ unset __conda_setup
 
 PATH=$PATH:/usr/local/opt/riscv-gnu-toolchain/bin
 
+bw login --check &> /dev/null
+if [ $? -eq 0 ]; then
+    bw sync &> /dev/null
+    if [ ! $? -eq 0 ]; then
+        if [[ -z $BW_SESSION ]]; then
+            export BW_SESSION=$(cat $HOME/.config/bw_session)
+        fi
+    else
+        bw unlock $BW_PASSWORD --raw > $HOME/.config/bw_session
+        export BW_SESSION=$(cat $HOME/.config/bw_session)
+    fi
+else
+    bw login $BW_LOGIN $BW_PASSWORD --raw > $HOME/.config/bw_session
+    export BW_SESSION=$(cat $HOME/.config/bw_session)
+fi

@@ -28,6 +28,7 @@ dynamic_padding = true
 
 decorations = "buttonless"
 decorations_theme_variant = "Dark" # "Dark"
+option_as_alt = "OnlyLeft"
 
 
 [font]
