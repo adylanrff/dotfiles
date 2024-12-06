@@ -15,7 +15,7 @@ return {
       },
     },
     behaviour = {
-      auto_suggestions = true, -- Experimental stage
+      auto_suggestions = false, -- Experimental stage
       auto_apply_diff_after_generation = true,
     },
 
