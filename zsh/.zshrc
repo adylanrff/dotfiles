@@ -155,3 +155,10 @@ else
     bw login $BW_LOGIN $BW_PASSWORD --raw > $HOME/.config/bw_session
     export BW_SESSION=$(cat $HOME/.config/bw_session)
 fi
+
+alias love="/Applications/love.app/Contents/MacOS/love"
+
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform

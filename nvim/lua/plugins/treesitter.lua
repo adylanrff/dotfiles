@@ -5,6 +5,7 @@ return {
     indent = { enable = true },
     ensure_installed = {
       "bash",
+      "terraform",
       "c",
       "cpp",
       "diff",
@@ -29,6 +30,7 @@ return {
       "vimdoc",
       "xml",
       "yaml",
+      "go",
     },
   },
 }
