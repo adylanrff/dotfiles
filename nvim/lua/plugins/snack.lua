@@ -26,7 +26,7 @@ return {
       sections = {
         {
           section = "terminal",
-          cmd = "chafa ~/.config/nvim/res/chill-guy.png --size 60x24",
+          cmd = "chafa ~/.config/nvim/res/oiia_transparent.gif -O 9 --align=center",
           height = 24,
           padding = 1,
         },
