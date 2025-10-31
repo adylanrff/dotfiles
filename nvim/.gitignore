@@ -7,3 +7,10 @@ foo.*
 *.log
 data
 .DS_Store
+
+# Lazy.nvim lock file (auto-generated)
+lazy-lock.json
+
+# Backup files
+*.backup
+*~
