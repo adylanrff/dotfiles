@@ -1,0 +1,12 @@
+# AUR Package List (Arch User Repository)
+# Install with: yay -S --needed - < packages.aur
+# First install yay: https://github.com/Jguer/yay
+
+# Fonts
+ttf-firacode-nerd
+# ttf-jetbrains-mono-nerd
+# ttf-hack-nerd
+
+# Optional GUI Apps
+# visual-studio-code-bin
+# docker-desktop

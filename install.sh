@@ -14,6 +14,18 @@ NC='\033[0m' # No Color
 # Get script directory
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Run validation first
+echo ""
+echo -e "${BLUE}=== Validating Dotfiles ===${NC}"
+if [ -f "$DOTFILES_DIR/validate.sh" ]; then
+    if ! "$DOTFILES_DIR/validate.sh"; then
+        echo -e "${RED}❌ Validation failed. Please fix errors before continuing.${NC}"
+        exit 1
+    fi
+else
+    echo -e "${YELLOW}⚠ validate.sh not found, skipping validation${NC}"
+fi
+
 # Detect OS and distro
 detect_os() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -79,8 +91,30 @@ create_symlink() {
     local target=$2
     local description=$3
 
+    # Verify source file exists and is not a symlink
+    if [ ! -e "$source" ]; then
+        echo -e "${RED}❌ Error: Source file $source does not exist${NC}"
+        return 1
+    fi
+
+    if [ -L "$source" ]; then
+        echo -e "${RED}❌ Error: Source file $source is a symlink. It should be a real file.${NC}"
+        echo -e "${YELLOW}   Fix: Remove the symlink and restore the actual file.${NC}"
+        return 1
+    fi
+
+    # Check if target is already a correct symlink
     if [ -L "$target" ]; then
-        echo -e "${GREEN}✓ $description symlink already exists${NC}"
+        local current_target=$(readlink "$target")
+        if [ "$current_target" = "$source" ]; then
+            echo -e "${GREEN}✓ $description symlink already exists${NC}"
+            return 0
+        else
+            echo -e "${YELLOW}⚠ Existing $description symlink points to different location. Updating...${NC}"
+            rm "$target"
+            ln -sf "$source" "$target"
+            echo -e "${GREEN}✓ $description symlink updated${NC}"
+        fi
     elif [ -e "$target" ]; then
         echo -e "${YELLOW}⚠ Existing $description found. Backing up to ${target}.backup${NC}"
         mv "$target" "${target}.backup"
@@ -117,21 +151,57 @@ fi
 echo ""
 echo -e "${BLUE}=== Installing Core Tools ===${NC}"
 
-# Git
-if ! is_installed git; then
-    install_package git
-fi
+# On macOS, use Brewfile for package installation
+if [[ "$OS" == "macos" ]] && [ -f "$DOTFILES_DIR/Brewfile" ]; then
+    echo -e "${YELLOW}Installing packages from Brewfile...${NC}"
 
-# curl and wget
-if ! is_installed curl; then
-    install_package curl
+    # Check if Alacritty is already installed and uninstall to avoid conflicts
+    if brew list --cask alacritty &> /dev/null; then
+        echo -e "${YELLOW}Removing existing Alacritty to avoid conflicts...${NC}"
+        brew uninstall --cask alacritty --force
+    elif [ -d "/Applications/Alacritty.app" ]; then
+        echo -e "${YELLOW}Removing existing Alacritty.app...${NC}"
+        rm -rf "/Applications/Alacritty.app"
+    fi
+
+    brew bundle --file="$DOTFILES_DIR/Brewfile"
+    echo -e "${GREEN}✓ Brewfile packages installed${NC}"
+elif [[ "$OS" == "arch" ]] && [ -f "$DOTFILES_DIR/packages.arch" ]; then
+    echo -e "${YELLOW}Installing packages from packages.arch...${NC}"
+    sudo pacman -S --needed - < "$DOTFILES_DIR/packages.arch"
+    echo -e "${GREEN}✓ Arch packages installed${NC}"
+
+    # Install AUR packages if yay is available
+    if is_installed yay && [ -f "$DOTFILES_DIR/packages.aur" ]; then
+        echo -e "${YELLOW}Installing AUR packages from packages.aur...${NC}"
+        yay -S --needed - < "$DOTFILES_DIR/packages.aur"
+        echo -e "${GREEN}✓ AUR packages installed${NC}"
+    elif [ -f "$DOTFILES_DIR/packages.aur" ]; then
+        echo -e "${YELLOW}⚠ Yay not found. Skipping AUR packages. Install yay to install fonts and other AUR packages.${NC}"
+    fi
+else
+    # Fallback for other distros or when package list is missing
+    # Git
+    if ! is_installed git; then
+        install_package git
+    fi
+
+    # curl and wget
+    if ! is_installed curl; then
+        install_package curl
+    fi
 fi
 
 echo ""
 echo -e "${BLUE}=== Installing Zsh ===${NC}"
 
+# Skip if already installed via package list
 if ! is_installed zsh; then
     install_package zsh
+elif [[ "$OS" == "macos" ]]; then
+    echo -e "${GREEN}✓ Zsh already installed (via Brewfile)${NC}"
+elif [[ "$OS" == "arch" ]]; then
+    echo -e "${GREEN}✓ Zsh already installed (via packages.arch)${NC}"
 fi
 
 # Set zsh as default shell
@@ -166,10 +236,40 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
 fi
 
 echo ""
+echo -e "${BLUE}=== Installing Fzf ===${NC}"
+
+if ! is_installed fzf; then
+    install_package fzf
+elif [[ "$OS" == "arch" ]]; then
+    echo -e "${GREEN}✓ Fzf already installed (via packages.arch)${NC}"
+fi
+
+# Install fzf key bindings and fuzzy completion
+if [[ "$OS" == "macos" ]] && is_installed fzf; then
+    echo -e "${YELLOW}Setting up fzf key bindings...${NC}"
+    # Homebrew fzf setup
+    if [ -f "$(brew --prefix)/opt/fzf/install" ]; then
+        "$(brew --prefix)/opt/fzf/install" --key-bindings --completion --no-update-rc
+    fi
+    echo -e "${GREEN}✓ Fzf configured${NC}"
+elif [[ "$OS" == "arch" ]] && is_installed fzf; then
+    echo -e "${YELLOW}Setting up fzf key bindings...${NC}"
+    # Arch Linux fzf setup
+    if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+        echo -e "${GREEN}✓ Fzf configured (key bindings available in .zshrc)${NC}"
+    fi
+fi
+
+echo ""
 echo -e "${BLUE}=== Installing Tmux ===${NC}"
 
+# Skip if already installed via package list
 if ! is_installed tmux; then
     install_package tmux
+elif [[ "$OS" == "macos" ]]; then
+    echo -e "${GREEN}✓ Tmux already installed (via Brewfile)${NC}"
+elif [[ "$OS" == "arch" ]]; then
+    echo -e "${GREEN}✓ Tmux already installed (via packages.arch)${NC}"
 fi
 
 # Install TPM (Tmux Plugin Manager)
@@ -184,10 +284,10 @@ echo -e "${BLUE}=== Installing Alacritty ===${NC}"
 if ! is_installed alacritty; then
     case "$OS" in
         macos)
-            brew install --cask alacritty
+            echo -e "${GREEN}✓ Alacritty already installed (via Brewfile)${NC}"
             ;;
         arch)
-            sudo pacman -S --noconfirm alacritty
+            echo -e "${GREEN}✓ Alacritty already installed (via packages.arch)${NC}"
             ;;
         ubuntu)
             sudo add-apt-repository -y ppa:aslatter/ppa
@@ -198,6 +298,10 @@ if ! is_installed alacritty; then
             sudo dnf install -y alacritty
             ;;
     esac
+elif [[ "$OS" == "macos" ]]; then
+    echo -e "${GREEN}✓ Alacritty already installed (via Brewfile)${NC}"
+elif [[ "$OS" == "arch" ]]; then
+    echo -e "${GREEN}✓ Alacritty already installed (via packages.arch)${NC}"
 fi
 
 echo ""
@@ -212,6 +316,10 @@ fi
 
 echo ""
 echo -e "${BLUE}=== Creating Symlinks ===${NC}"
+
+# Git
+create_symlink "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig" "Git config"
+create_symlink "$DOTFILES_DIR/git/.gitignore_global" "$HOME/.gitignore_global" "Git global ignore"
 
 # Zsh
 create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc" "Zsh config"

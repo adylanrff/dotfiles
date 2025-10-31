@@ -1,0 +1,52 @@
+# Arch Linux Package List
+# Install with: sudo pacman -S --needed - < packages.arch
+# Or run the install.sh script which will use this file
+
+# Essential Tools
+git
+curl
+wget
+
+# Shell & Terminal
+zsh
+tmux
+fzf
+
+# Modern CLI Replacements
+ripgrep          # Better grep
+fd               # Better find
+bat              # Better cat
+eza              # Better ls
+zoxide           # Better cd
+
+# Development Tools
+neovim
+lazygit
+jq               # JSON processor
+yq               # YAML processor
+tree             # Directory tree viewer
+
+# System Utilities
+htop
+btop             # Better htop
+tldr             # Simplified man pages
+man-db
+man-pages
+
+# Terminal Emulator
+alacritty
+
+# Build essentials
+base-devel
+cmake
+ninja
+
+# Additional utilities
+unzip
+zip
+tar
+gzip
+
+# Optional: AUR helper (install separately with yay)
+# yay -S --needed - < packages.aur
+# See packages.aur for AUR packages

@@ -1,0 +1,73 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.*.sw?
+.project
+.settings/
+.classpath
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+bower_components/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.o
+*.so
+*.dylib
+*.exe
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Misc
+.cache/
+.tmp/
+*.bak
+*.backup
