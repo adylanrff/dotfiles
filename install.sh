@@ -342,6 +342,12 @@ create_symlink "$DOTFILES_DIR/tmux/tmux.conf.local" "$HOME/.tmux.conf.local" "Tm
 # Alacritty
 create_symlink "$DOTFILES_DIR/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml" "Alacritty config"
 
+# Waybar
+if [ -d "$DOTFILES_DIR/waybar" ]; then
+    create_symlink "$DOTFILES_DIR/waybar/config.jsonc" "$HOME/.config/waybar/config.jsonc" "Waybar config"
+    create_symlink "$DOTFILES_DIR/waybar/style.css" "$HOME/.config/waybar/style.css" "Waybar styles"
+fi
+
 # Scripts
 if [ -d "$DOTFILES_DIR/scripts" ]; then
     mkdir -p "$HOME/.local/bin"
