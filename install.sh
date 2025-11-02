@@ -315,6 +315,17 @@ else
 fi
 
 echo ""
+echo -e "${BLUE}=== Checking for Broken Symlinks in Dotfiles ===${NC}"
+
+# Find and remove any broken symlinks in the dotfiles directory
+find "$DOTFILES_DIR" -type l -xtype l 2>/dev/null | while read -r broken_link; do
+    echo -e "${YELLOW}⚠ Found broken symlink: $broken_link${NC}"
+    echo -e "${YELLOW}  Removing broken symlink...${NC}"
+    rm "$broken_link"
+    echo -e "${GREEN}✓ Removed broken symlink${NC}"
+done
+
+echo ""
 echo -e "${BLUE}=== Creating Symlinks ===${NC}"
 
 # Git
