@@ -25,6 +25,7 @@ lazygit
 jq               # JSON processor
 yq               # YAML processor
 tree             # Directory tree viewer
+ueberzugpp       # Image display in terminal (for hologram.nvim)
 
 # System Utilities
 htop

@@ -417,6 +417,8 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 
 set -g @continuum-restore 'on'
 set -g @resurrect-strategy-nvim 'session'
+set -g allow-passthrough on
+set -g visual-activity off
 
 # -- custom variables ----------------------------------------------------------
 

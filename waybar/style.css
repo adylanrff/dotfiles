@@ -1,57 +1,53 @@
 * {
-    border: none;
-    border-radius: 0;
-    font-family: "FiraCode Nerd Font", "Font Awesome 6 Free", monospace;
-    font-size: 13px;
-    min-height: 0;
+	border: none;
+	border-radius: 0;
+	font-family: "FiraCode Nerd Font", "Font Awesome 6 Free", monospace;
+	font-size: 14px;
+	min-height: 0;
 }
 
 window#waybar {
-    background: rgba(28, 0, 28, 0.9);
-    color: #cdd6f4;
-    border-radius: 8px;
+	background: rgba(28, 0, 28, 0);
+	color: #cdd6f4;
 }
 
 /* Workspaces */
 #workspaces {
-    margin: 0 4px;
+	background: rgba(28, 0, 28, 0.9);
+	margin: 0 3px;
+	border-radius: 12px;
 }
 
 #workspaces button {
-    padding: 0 8px;
-    background: transparent;
-    color: #6c7086;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
+	padding: 4px 8px;
+	color: #6c7086;
+	border-bottom: 2px solid transparent;
+	transition: all 0.3s ease;
 }
 
 #workspaces button.active {
-    color: #89b4fa;
-    border-bottom: 2px solid #89b4fa;
+	color: #89b4fa;
+	border-bottom: 2px solid #89b4fa;
 }
 
 #workspaces button.urgent {
-    color: #f38ba8;
-    border-bottom: 2px solid #f38ba8;
+	color: #f38ba8;
+	border-bottom: 2px solid #f38ba8;
 }
 
 #workspaces button:hover {
-    background: rgba(137, 180, 250, 0.1);
-    color: #89b4fa;
+	background: rgba(137, 180, 250, 0.1);
+	color: #89b4fa;
 }
 
-/* Window Title */
-#window {
-    margin: 0 8px;
-    padding: 0 12px;
-    color: #cdd6f4;
-}
 
 /* Clock */
 #clock {
-    padding: 0 12px;
-    color: #f5c2e7;
-    font-weight: bold;
+	padding: 0 12px;
+	color: #f5c2e7;
+	font-weight: bold;
+	background: rgba(28, 0, 28, 0.9);
+	border-radius: 20px;
 }
 
 /* System Modules */
@@ -60,81 +56,81 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio {
-    padding: 0 10px;
-    margin: 0 2px;
-    background: rgba(137, 180, 250, 0.1);
-    border-radius: 6px;
+	padding: 0 10px;
+	margin: 0 2px;
+	background: rgba(137, 180, 250, 0.1);
+	border-radius: 6px;
 }
 
 #cpu {
-    color: #89dceb;
+	color: #89dceb;
 }
 
 #memory {
-    color: #a6e3a1;
+	color: #a6e3a1;
 }
 
 #battery {
-    color: #f9e2af;
+	color: #f9e2af;
 }
 
 #battery.charging {
-    color: #a6e3a1;
+	color: #a6e3a1;
 }
 
 #battery.warning:not(.charging) {
-    color: #fab387;
+	color: #fab387;
 }
 
 #battery.critical:not(.charging) {
-    color: #f38ba8;
-    animation: blink 1s linear infinite;
+	color: #f38ba8;
+	animation: blink 1s linear infinite;
 }
 
 @keyframes blink {
-    to {
-        opacity: 0.5;
-    }
+	to {
+		opacity: 0.5;
+	}
 }
 
 #network {
-    color: #89b4fa;
+	color: #89b4fa;
 }
 
 #network.disconnected {
-    color: #f38ba8;
+	color: #f38ba8;
 }
 
 #pulseaudio {
-    color: #cba6f7;
+	color: #cba6f7;
 }
 
 #pulseaudio.muted {
-    color: #6c7086;
+	color: #6c7086;
 }
 
 /* System Tray */
 #tray {
-    padding: 0 10px;
+	padding: 0 8px;
 }
 
-#tray > .passive {
-    -gtk-icon-effect: dim;
+#tray>.passive {
+	-gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
+#tray>.needs-attention {
+	-gtk-icon-effect: highlight;
 }
 
 /* Power Button */
 #custom-power {
-    padding: 0 12px;
-    color: #f38ba8;
-    font-size: 16px;
-    font-weight: bold;
+	padding: 0 12px;
+	color: #f38ba8;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 #custom-power:hover {
-    background: rgba(243, 139, 168, 0.1);
-    border-radius: 6px;
+	background: rgba(243, 139, 168, 0.1);
+	border-radius: 6px;
 }

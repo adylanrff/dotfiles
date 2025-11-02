@@ -348,6 +348,18 @@ if [ -d "$DOTFILES_DIR/waybar" ]; then
     create_symlink "$DOTFILES_DIR/waybar/style.css" "$HOME/.config/waybar/style.css" "Waybar styles"
 fi
 
+# Hypr scripts
+if [ -d "$DOTFILES_DIR/hypr/scripts" ]; then
+    mkdir -p "$HOME/.config/hypr/scripts"
+    for script in "$DOTFILES_DIR/hypr/scripts"/*; do
+        if [ -f "$script" ]; then
+            script_name=$(basename "$script")
+            create_symlink "$script" "$HOME/.config/hypr/scripts/$script_name" "Hypr script: $script_name"
+            chmod +x "$HOME/.config/hypr/scripts/$script_name"
+        fi
+    done
+fi
+
 # Scripts
 if [ -d "$DOTFILES_DIR/scripts" ]; then
     mkdir -p "$HOME/.local/bin"

@@ -1,0 +1,12 @@
+# Ignore downloaded wallpapers
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.webm
+*.mov
+
+# Keep documentation
+!README.md
+!RECOMMENDED.md
