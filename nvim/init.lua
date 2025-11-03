@@ -2,10 +2,14 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Ensure space works normally in insert mode
+vim.keymap.set("i", " ", " ", { noremap = true })
+
 -- Options
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "auto:2"
+vim.opt.timeoutlen = 300  -- Time in ms to wait for a mapped sequence to complete
 
 -- Diagnostic signs
 vim.fn.sign_define("DiagnosticSignError", { text = "●", texthl = "DiagnosticSignError", priority = 10 })
