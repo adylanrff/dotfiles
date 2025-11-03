@@ -14,6 +14,7 @@ return {
           "clangd",      -- C/C++
           "gopls",       -- Go
           "rust_analyzer", -- Rust
+          "pyright",     -- Python
         },
         automatic_installation = true,
       })
@@ -28,6 +29,8 @@ return {
           "clang-format", -- C/C++
           "goimports",    -- Go
           "stylua",       -- Lua
+          "black",        -- Python formatter
+          "ruff",         -- Python linter
         },
         auto_update = true,
       })
@@ -83,8 +86,26 @@ return {
         capabilities = capabilities,
       }
 
+      -- Python
+      vim.lsp.config.pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" },
+        capabilities = capabilities,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "workspace",
+              useLibraryCodeForTypes = true,
+              typeCheckingMode = "basic",
+            },
+          },
+        },
+      }
+
       -- Enable LSP servers
-      vim.lsp.enable({ "clangd", "gopls", "rust_analyzer" })
+      vim.lsp.enable({ "clangd", "gopls", "rust_analyzer", "pyright" })
     end,
   },
 }

@@ -48,6 +48,20 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
 
+-- Python: Create function stub from current word
+vim.keymap.set("n", "<leader>cf", function()
+  local word = vim.fn.expand("<cword>")
+  local lines = {
+    "",
+    "",
+    "def " .. word .. "():",
+    '    """TODO: Implement ' .. word .. '"""',
+    "    pass",
+  }
+  vim.api.nvim_buf_set_lines(0, -1, -1, false, lines)
+  vim.cmd("normal! G")
+end, { desc = "Create function stub" })
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
