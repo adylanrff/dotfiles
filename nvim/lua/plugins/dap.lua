@@ -35,6 +35,16 @@ return {
 				},
 				{
 					type = "delve",
+					name = "Debug (with args)",
+					request = "launch",
+					program = "${file}",
+					args = function()
+						local args_string = vim.fn.input("Arguments: ")
+						return vim.split(args_string, " ")
+					end,
+				},
+				{
+					type = "delve",
 					name = "Debug test",
 					request = "launch",
 					mode = "test",
@@ -45,6 +55,38 @@ return {
 					name = "Debug package",
 					request = "launch",
 					program = "${fileDirname}",
+				},
+			}
+
+			-- Python (debugpy) configuration
+			dap.adapters.python = {
+				type = "executable",
+				command = "python",
+				args = { "-m", "debugpy.adapter" },
+			}
+
+			dap.configurations.python = {
+				{
+					type = "python",
+					request = "launch",
+					name = "Debug",
+					program = "${file}",
+					pythonPath = function()
+						return "python"
+					end,
+				},
+				{
+					type = "python",
+					request = "launch",
+					name = "Debug (with args)",
+					program = "${file}",
+					pythonPath = function()
+						return "python"
+					end,
+					args = function()
+						local args_string = vim.fn.input("Arguments: ")
+						return vim.split(args_string, " ")
+					end,
 				},
 			}
 
@@ -70,6 +112,31 @@ return {
 			vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Step out" })
 			vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Open REPL" })
 			vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "Toggle DAP UI" })
+			vim.keymap.set("n", "<leader>dA", function()
+				local args_string = vim.fn.input("Arguments: ")
+				local args = vim.split(args_string, " ")
+				local ft = vim.bo.filetype
+				if ft == "go" then
+					dap.run({
+						type = "delve",
+						name = "Debug with args",
+						request = "launch",
+						program = "${file}",
+						args = args,
+					})
+				elseif ft == "python" then
+					dap.run({
+						type = "python",
+						name = "Debug with args",
+						request = "launch",
+						program = "${file}",
+						pythonPath = "python",
+						args = args,
+					})
+				else
+					vim.notify("No debug configuration for filetype: " .. ft, vim.log.levels.WARN)
+				end
+			end, { desc = "Debug with args" })
 			vim.keymap.set("n", "<leader>dl", function()
 				vim.cmd("edit " .. vim.fn.stdpath("cache") .. "/dap.log")
 			end, { desc = "Open DAP log" })
@@ -83,6 +150,7 @@ return {
 				ensure_installed = {
 					"codelldb", -- C/C++/Rust
 					"delve", -- Go
+					"debugpy", -- Python
 				},
 				automatic_installation = true,
 				handlers = {},
