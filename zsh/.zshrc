@@ -111,6 +111,7 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 alias vimcfg="nvim ~/.config/nvim"
 alias pip=pip3
+alias docker=podman
 
 # fzf configuration
 if command -v fzf &> /dev/null; then
@@ -177,3 +178,12 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
+
+# opencode
+export PATH="/home/adylanr/.opencode/bin:$PATH"
+export PATH="$PATH:/usr/libexec"
+# Add virtiofsd to PATH for podman
+export PATH="$PATH:/usr/lib"
+#
+#
+#

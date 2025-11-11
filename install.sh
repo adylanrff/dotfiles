@@ -155,15 +155,6 @@ echo -e "${BLUE}=== Installing Core Tools ===${NC}"
 if [[ "$OS" == "macos" ]] && [ -f "$DOTFILES_DIR/Brewfile" ]; then
     echo -e "${YELLOW}Installing packages from Brewfile...${NC}"
 
-    # Check if Alacritty is already installed and uninstall to avoid conflicts
-    if brew list --cask alacritty &> /dev/null; then
-        echo -e "${YELLOW}Removing existing Alacritty to avoid conflicts...${NC}"
-        brew uninstall --cask alacritty --force
-    elif [ -d "/Applications/Alacritty.app" ]; then
-        echo -e "${YELLOW}Removing existing Alacritty.app...${NC}"
-        rm -rf "/Applications/Alacritty.app"
-    fi
-
     brew bundle --file="$DOTFILES_DIR/Brewfile"
     echo -e "${GREEN}✓ Brewfile packages installed${NC}"
 elif [[ "$OS" == "arch" ]] && [ -f "$DOTFILES_DIR/packages.arch" ]; then
