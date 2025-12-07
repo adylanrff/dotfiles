@@ -187,3 +187,4 @@ export PATH="$PATH:/usr/lib"
 #
 #
 #
+export PATH="$HOME/.local/bin:$PATH"

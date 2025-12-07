@@ -15,6 +15,7 @@ return {
           "gopls",       -- Go
           "rust_analyzer", -- Rust
           "pyright",     -- Python
+          "cmake_language_server", -- CMake
         },
         automatic_installation = true,
       })
@@ -104,8 +105,16 @@ return {
         },
       }
 
+      -- CMake
+      vim.lsp.config.cmake_language_server = {
+        cmd = { "cmake-language-server" },
+        filetypes = { "cmake" },
+        root_markers = { "CMakeLists.txt", ".git" },
+        capabilities = capabilities,
+      }
+
       -- Enable LSP servers
-      vim.lsp.enable({ "clangd", "gopls", "rust_analyzer", "pyright" })
+      vim.lsp.enable({ "clangd", "gopls", "rust_analyzer", "pyright", "cmake_language_server" })
     end,
   },
 }

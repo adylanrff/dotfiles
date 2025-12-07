@@ -8,8 +8,15 @@ vim.keymap.set("i", " ", " ", { noremap = true })
 -- Options
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.clipboard = "unnamedplus"  -- Use system clipboard for yank/paste
 vim.opt.signcolumn = "auto:2"
 vim.opt.timeoutlen = 300  -- Time in ms to wait for a mapped sequence to complete
+
+-- Tab settings
+vim.opt.tabstop = 2        -- Number of spaces tabs count for
+vim.opt.shiftwidth = 2     -- Size of an indent
+vim.opt.expandtab = true   -- Use spaces instead of tabs
+vim.opt.softtabstop = 2    -- Number of spaces tabs count for in insert mode
 
 -- Diagnostic signs
 vim.fn.sign_define("DiagnosticSignError", { text = "●", texthl = "DiagnosticSignError", priority = 10 })
